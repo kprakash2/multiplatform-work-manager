@@ -22,7 +22,7 @@ kotlin {
 
     cocoapods {
         summary = "Multiplatform Work Manager Library"
-        homepage = "Multipaltform Work Manager Library Homepage"
+        homepage = "https://github.com/kartik-prakash/multiplatform-work-manager"
         version = "1.0"
         ios.deploymentTarget = "16.0"
         framework {
