@@ -1,10 +1,10 @@
-package com.kartik.multiplatform.tools.background
+package com.kartikprakash2.multiplatform.tools
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
-import com.kartik.multiplatform.tools.background.models.BackgroundJob
+import com.kartikprakash2.multiplatform.tools.models.BackgroundJob
 import org.koin.core.component.KoinComponent
 import org.koin.core.qualifier.named
 

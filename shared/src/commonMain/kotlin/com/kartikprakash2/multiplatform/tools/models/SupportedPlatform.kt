@@ -1,4 +1,4 @@
-package com.kartik.multiplatform.tools.background.models
+package com.kartikprakash2.multiplatform.tools.models
 
 enum class SupportedPlatform {
     ANDROID_ONLY,

@@ -1,4 +1,4 @@
-package com.kartik.multiplatform.tools.background
+package com.kartikprakash2.multiplatform.tools
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.CPointer

@@ -1,4 +1,4 @@
-package com.kartik.multiplatform.tools.background
+package com.kartikprakash2.multiplatform.tools
 
 internal expect class BackgroundWorkRepositoryImpl() : BackgroundWorkRepository {
     override suspend fun cancelJob(identifier: String)

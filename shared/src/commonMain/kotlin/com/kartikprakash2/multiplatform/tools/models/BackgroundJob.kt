@@ -1,4 +1,4 @@
-package com.kartik.multiplatform.tools.background.models
+package com.kartikprakash2.multiplatform.tools.models
 
 interface BackgroundJob {
     suspend fun run(): Boolean

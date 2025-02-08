@@ -36,5 +36,5 @@ kotlin {
 }
 
 android {
-    namespace = "com.kartik.multiplatform.tools"
+    namespace = "com.kartikprakash2.multiplatform.tools"
 }
