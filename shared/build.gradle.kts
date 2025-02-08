@@ -1,35 +1,21 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
 }
 
 kotlin {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     androidTarget {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_17)
-                }
-            }
-        }
+        publishAllLibraryVariants()
     }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-
-    cocoapods {
-        summary = "Multiplatform Work Manager Library"
-        homepage = "https://github.com/kartik-prakash/multiplatform-work-manager"
-        version = "1.0"
-        ios.deploymentTarget = "16.0"
-        framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
     
     sourceSets {
         commonMain.dependencies {
@@ -51,12 +37,4 @@ kotlin {
 
 android {
     namespace = "com.kartik.multiplatform.tools"
-    compileSdk = 35
-    defaultConfig {
-        minSdk = 24
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 }
