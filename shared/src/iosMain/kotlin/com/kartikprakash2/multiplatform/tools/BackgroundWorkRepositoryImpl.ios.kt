@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@ package com.kartikprakash2.multiplatform.tools
 
 import co.touchlab.kermit.Logger
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJob
+import com.kartikprakash2.multiplatform.tools.models.BackgroundJobConfiguration
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
 import com.kartikprakash2.multiplatform.tools.models.SupportedPlatform
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -37,31 +38,30 @@ import kotlin.time.Duration.Companion.milliseconds
 internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, KoinComponent {
     private val logger = Logger.withTag(this::class.simpleName ?: "BackgroundWorkRepositoryImpl")
 
-    actual override suspend fun cancelJob(identifier: String) {
-        BGTaskScheduler.sharedScheduler.cancelTaskRequestWithIdentifier(identifier)
+    actual override suspend fun cancelJob(type: BackgroundJobType) {
+        BGTaskScheduler.sharedScheduler.cancelTaskRequestWithIdentifier(type.identifier)
     }
 
-    actual override suspend fun scheduleJob(identifier: String) {
-        val jobType = BackgroundWorkRepository.getJobType(identifier)
+    actual override suspend fun scheduleJob(type: BackgroundJobType) {
+        val jobType = BackgroundWorkRepository.getJobConfiguration(type)
         checkPlatformAndRun(jobType) {
-            callJobImmediately(identifier).also {
-                logger.d("Job: $identifier result: $it")
+            callJobImmediately(type.identifier).also {
+                logger.d("Job: ${type.identifier} result: $it")
             }
-            scheduleNextAttempt(identifier)
+            scheduleNextAttempt(type.identifier)
         }
     }
 
-    override suspend fun registerJobs(jobs: Map<String, BackgroundJobType>) {
+    override suspend fun registerJobs(jobs: Map<BackgroundJobType, BackgroundJobConfiguration>) {
         super.registerJobs(jobs)
-        // TODO check if it's needed
-//        jobs.forEach {
-//            registerJob(it.key)
-//        }
+        jobs.forEach {
+            registerJob(it.key)
+        }
     }
 
-    private fun registerJob(identifier: String) {
+    private fun registerJob(type: BackgroundJobType) {
         val result = BGTaskScheduler.sharedScheduler.registerForTaskWithIdentifier(
-            identifier,
+            type.identifier,
             null
         ) { task ->
             try {
@@ -77,6 +77,7 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
 
     private fun runExecutionBlock(task: BGAppRefreshTask) {
         logger.d("Running from execution block")
+
         task.setExpirationHandler {
             task.setTaskCompletedWithSuccess(false)
             runBlocking {
@@ -123,9 +124,11 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
 
     @OptIn(ExperimentalForeignApi::class)
     private suspend fun scheduleNextAttempt(identifier: String) {
-        cancelJob(identifier)
+        val type = BackgroundWorkRepository.getJobTypeByIdentifier(identifier)
+        val job = BackgroundWorkRepository.getJobConfiguration(type)
 
-        val job = BackgroundWorkRepository.getJobType(identifier)
+        cancelJob(type)
+
         val request = BGAppRefreshTaskRequest(identifier)
         val utcNow = Clock.System.now().toEpochMilliseconds().milliseconds
         val nextTriggerTime = utcNow + job.intervalInMillis.milliseconds
@@ -148,7 +151,7 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
         }
     }
 
-    private inline fun checkPlatformAndRun(job: BackgroundJobType, block: () -> Unit) {
+    private inline fun checkPlatformAndRun(job: BackgroundJobConfiguration, block: () -> Unit) {
         if (job.supportedPlatform == SupportedPlatform.ALL || job.supportedPlatform == SupportedPlatform.IOS_ONLY) {
             block.invoke()
         }

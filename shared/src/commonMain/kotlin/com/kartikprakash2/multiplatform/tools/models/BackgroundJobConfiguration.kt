@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
-package com.kartikprakash2.multiplatform.tools
+package com.kartikprakash2.multiplatform.tools.models
 
-internal const val BG_JOB_TAG = "BG_JOB_TAG"
+data class BackgroundJobConfiguration(
+    val intervalInMillis: Long,
+    val periodic: Boolean,
+    val supportedPlatform: SupportedPlatform = SupportedPlatform.ALL,
+)

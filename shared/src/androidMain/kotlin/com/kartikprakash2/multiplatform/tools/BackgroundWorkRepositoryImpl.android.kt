@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import co.touchlab.kermit.Logger
+import com.kartikprakash2.multiplatform.tools.models.BackgroundJobConfiguration
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
 import com.kartikprakash2.multiplatform.tools.models.SupportedPlatform
 import org.koin.core.component.KoinComponent
@@ -45,26 +46,26 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
         }
     }
 
-    actual override suspend fun cancelJob(identifier: String) {
+    actual override suspend fun cancelJob(type: BackgroundJobType) {
         ensureWorkManagerInitialized()
-        workManager.cancelAllWorkByTag(identifier)
+        workManager.cancelAllWorkByTag(type.identifier)
     }
 
-    actual override suspend fun scheduleJob(identifier: String) {
-        val jobType = BackgroundWorkRepository.getJobType(identifier)
-        checkPlatformAndRun(jobType) {
+    actual override suspend fun scheduleJob(type: BackgroundJobType) {
+        val job = BackgroundWorkRepository.getJobConfiguration(type)
+        checkPlatformAndRun(job) {
             ensureWorkManagerInitialized()
-            logger.i("Scheduling Job: $jobType")
-            cancelJob(identifier)
+            logger.i("Scheduling Job: $type")
+            cancelJob(type)
             val inputData: Data = workDataOf(
-                BG_JOB_TAG to identifier
+                BG_JOB_TAG to type.identifier
             )
             when {
-                jobType.periodic.not() -> {
-                    scheduleOneTimeJob(inputData, identifier)
+                job.periodic.not() -> {
+                    scheduleOneTimeJob(inputData, type.identifier)
                 }
                 else -> {
-                    scheduleLowFrequencyJob(inputData, jobType, identifier)
+                    scheduleLowFrequencyJob(inputData, job, type.identifier)
                 }
             }
         }
@@ -86,7 +87,7 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
 
     private fun scheduleLowFrequencyJob(
         inputData: Data,
-        job: BackgroundJobType,
+        job: BackgroundJobConfiguration,
         identifier: String
     ) {
         workManager.enqueueUniquePeriodicWork(
@@ -102,7 +103,7 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
         )
     }
 
-    private inline fun checkPlatformAndRun(job: BackgroundJobType, block: () -> Unit) {
+    private inline fun checkPlatformAndRun(job: BackgroundJobConfiguration, block: () -> Unit) {
         if (job.supportedPlatform == SupportedPlatform.ALL || job.supportedPlatform == SupportedPlatform.ANDROID_ONLY) {
             block.invoke()
         }

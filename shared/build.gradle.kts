@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,9 +24,11 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.maven.publish)
     id("signing")
+    alias(libs.plugins.kmp.workmanager)
 }
 
 group = "com.kartikprakash2.multiplatform.tools"
+version = rootProject.version.toString()
 
 kotlin {
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -124,4 +126,11 @@ signing {
         )
         sign(publishing.publications)
     }
+}
+
+kmpworkmanager {
+    jobIdentifiers = setOf<String>("ID1")
+    iosAppInfoPlistPath = File(rootDir, "samples/workmanagersample/iosApp/iosApp/Info.plist").path
+    packageName = "com.kartikprakash2.multiplatform.tools"
+    sourceSetDirectory = project.file("src/commonMain/kotlin")
 }
