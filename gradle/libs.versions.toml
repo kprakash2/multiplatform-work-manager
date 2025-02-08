@@ -6,6 +6,7 @@ kotlin = "2.1.0"
 koin-bom = "4.0.0"
 kermit = "2.0.5"
 kotlinx-datetime = "0.6.1"
+maven-publish = "0.30.0"
 
 [libraries]
 
@@ -20,3 +21,4 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
