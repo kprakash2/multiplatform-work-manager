@@ -173,6 +173,8 @@ BackgroundJobConfiguration(
 - [ ] Add test for `kmp-work-managerplugin`
 - [ ] Add support for high frequency periodic jobs (recurring at frequency of less than 15 mins.)
 - [ ] Add support for backoff strategies
+- [ ] Add support for Network constraints
+- [ ] Add support for Phone Battery constraints
 
 ## License
 
