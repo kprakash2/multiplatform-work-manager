@@ -108,11 +108,10 @@ mavenPublishing {
     }
 }
 
-val publishingProperties = Properties().apply {
-    load(File(rootDir, "publishing.properties").inputStream())
-}
-
 signing {
+    val publishingProperties = Properties().apply {
+        load(File(rootDir, "publishing.properties").inputStream())
+    }
     val signingKeyId = publishingProperties.getProperty("signing.keyId")?.toString()?.replace("\\n", "\n")
 
     if (signingKeyId != null) {
