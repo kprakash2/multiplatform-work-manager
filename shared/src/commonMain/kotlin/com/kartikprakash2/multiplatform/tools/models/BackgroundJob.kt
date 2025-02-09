@@ -19,8 +19,6 @@ package com.kartikprakash2.multiplatform.tools.models
 /**
  * Background Job interface.
  *
- * @sample com.kartikprakash2.multiplatform.tools.models.MyBackgroundJobSample
- *
  */
 interface BackgroundJob {
     /**
@@ -36,16 +34,4 @@ interface BackgroundJob {
      * @return Returns True if the background work should be executed. False otherwise.
      */
     suspend fun validate(): Boolean
-}
-
-class MyBackgroundJobSample : BackgroundJob {
-    override suspend fun run(): Boolean {
-        // do long running background work
-        return true
-    }
-
-    override suspend fun validate(): Boolean {
-        // validate if the background work/task should be executed or not.
-        return true
-    }
 }

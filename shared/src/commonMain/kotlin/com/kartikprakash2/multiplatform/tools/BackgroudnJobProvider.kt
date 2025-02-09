@@ -18,12 +18,10 @@ package com.kartikprakash2.multiplatform.tools
 
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJob
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
-import com.kartikprakash2.multiplatform.tools.models.MyBackgroundJobSample
 
 /**
  * Background Job Provider. Used by [BackgroundWorkRepository] to execute background tasks.
  *
- * @sample com.kartikprakash2.multiplatform.tools.MyBackgroundJobProviderSample
  */
 interface BackgroundJobProvider<in T: BackgroundJobType> {
 
@@ -36,14 +34,3 @@ interface BackgroundJobProvider<in T: BackgroundJobType> {
     suspend fun <T: BackgroundJobType> getBackgroundJob(type: T): BackgroundJob
 }
 
-class MyBackgroundJobProviderSample : BackgroundJobProvider<BackgroundJobType> {
-    override suspend fun <T : BackgroundJobType> getBackgroundJob(
-        type: T
-    ): BackgroundJob {
-        return when (type) {
-            else -> {
-                MyBackgroundJobSample()
-            }
-        }
-    }
-}

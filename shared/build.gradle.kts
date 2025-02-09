@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.dokka)
     id("signing")
 }
 
@@ -122,5 +123,13 @@ signing {
             signingKeyPassword
         )
         sign(publishing.publications)
+    }
+}
+
+tasks.dokkaHtml.configure {
+    dokkaSourceSets {
+        configureEach {
+            samples.from("$projectDir/src/samples/kotlin/samples/samples.kt")
+        }
     }
 }
