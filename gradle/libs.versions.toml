@@ -4,7 +4,6 @@ androidx-work = "2.10.0"
 coroutines = "1.9.0"
 junit = "4.13.2"
 kotlin = "2.1.0"
-koin-bom = "4.0.0"
 kermit = "2.0.5"
 kotlinx-datetime = "0.6.1"
 ktlint = "12.1.2"
@@ -22,8 +21,6 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
-koin-core = { module = "io.insert-koin:koin-core" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "poet" }
 

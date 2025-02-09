@@ -16,13 +16,35 @@
 
 package com.kartikprakash2.multiplatform.tools
 
+import com.kartikprakash2.multiplatform.tools.models.BackgroundJob
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobConfiguration
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
 
+/**
+ * Repository to schedule one time or periodic background work.
+ *
+ */
 interface BackgroundWorkRepository {
+    /**
+     * Cancel a background job of type [BackgroundJobType]
+     *
+     * @param type Represents background job type
+     */
     suspend fun cancelJob(type: BackgroundJobType)
+
+    /**
+     * Scheduled a background job type [BackgroundJobType].
+     * Make sure to call [registerJobs] before scheduling any job.
+     *
+     *  @param type Represents background job type
+     */
     suspend fun scheduleJob(type: BackgroundJobType)
 
+    /**
+     * Register jobs with their configuration of type [BackgroundJobConfiguration]
+     *
+     *  @param jobs Mapping of [BackgroundJobType] to it's configuration of type [BackgroundJobConfiguration]
+     */
     suspend fun registerJobs(
         jobs: Map<BackgroundJobType, BackgroundJobConfiguration>
     ) {
@@ -33,6 +55,8 @@ interface BackgroundWorkRepository {
     companion object {
         private val jobsMap = mutableMapOf<BackgroundJobType, BackgroundJobConfiguration>()
         private lateinit var repository: BackgroundWorkRepository
+        private lateinit var provider: BackgroundJobProvider<*>
+        private var context: Any? = null
 
         internal fun getJobConfiguration(type: BackgroundJobType): BackgroundJobConfiguration {
             return jobsMap[type] ?: throw IllegalStateException(
@@ -46,12 +70,37 @@ interface BackgroundWorkRepository {
             )
         }
 
-        fun initialize() {
+        internal suspend fun getBackgroundJob(type: BackgroundJobType): BackgroundJob {
+            if (::provider.isInitialized.not()) {
+                throw IllegalStateException("Register job provider first, using [BackgroundWorkRepository.initialize()]")
+            }
+            return provider.getBackgroundJob(type)
+        }
+
+        /**
+         * Initializes the [BackgroundWorkRepository].
+         *
+         * @param context Context for Android platform. Provide `null` for iOS.
+         * @param provider Background job provider of type [BackgroundJobProvider].
+         * Used by [BackgroundWorkRepository] to get [BackgroundJob] for execution of background work.
+         */
+        fun initialize(
+            context: Any?,
+            provider: BackgroundJobProvider<*>
+        ) {
+            this.context = context
+            this.provider = provider
             if (!(::repository.isInitialized)) {
-                repository = BackgroundWorkRepositoryImpl()
+                repository = BackgroundWorkRepositoryImpl(context)
             }
         }
 
+        /**
+         * Returns an instance of [BackgroundWorkRepository].
+         * Call [BackgroundWorkRepository.initialize] before this.
+         *
+         * Throws [IllegalStateException] if [BackgroundWorkRepository] is not initalized.
+         */
         fun getInstance(): BackgroundWorkRepository {
             if (!(::repository.isInitialized)) {
                 throw IllegalStateException("Call [BackgroundWorkRepository.initialize()] first.")

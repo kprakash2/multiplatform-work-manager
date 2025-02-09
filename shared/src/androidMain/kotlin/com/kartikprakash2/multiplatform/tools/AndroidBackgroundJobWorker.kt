@@ -21,18 +21,17 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.touchlab.kermit.Logger
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJob
-import org.koin.core.component.KoinComponent
-import org.koin.core.qualifier.named
 
 internal class AndroidBackgroundJobWorker(
     appContext: Context,
     params: WorkerParameters
-) : CoroutineWorker(appContext, params), KoinComponent {
+) : CoroutineWorker(appContext, params) {
     private val logger = Logger.withTag(this::class.java.simpleName)
 
     override suspend fun doWork(): Result {
         val tag = inputData.getString(BG_JOB_TAG) ?: return Result.failure()
-        val backgroundJob = getKoin().get<BackgroundJob>(qualifier = named(tag))
+        val backgroundJobType = BackgroundWorkRepository.getJobTypeByIdentifier(tag)
+        val backgroundJob = BackgroundWorkRepository.getBackgroundJob(backgroundJobType)
         val res = runBackgroundJob(backgroundJob)
         return if (res) {
             Result.success()

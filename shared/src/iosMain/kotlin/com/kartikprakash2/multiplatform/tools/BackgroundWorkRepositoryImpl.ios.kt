@@ -24,9 +24,6 @@ import com.kartikprakash2.multiplatform.tools.models.SupportedPlatform
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import org.koin.core.qualifier.named
 import platform.BackgroundTasks.BGAppRefreshTask
 import platform.BackgroundTasks.BGAppRefreshTaskRequest
 import platform.BackgroundTasks.BGTaskScheduler
@@ -34,8 +31,10 @@ import platform.Foundation.NSDate
 import platform.Foundation.dateWithTimeIntervalSince1970
 import kotlin.time.Duration.Companion.milliseconds
 
+// Remove usage of runBlocking {}
+
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, KoinComponent {
+internal actual class BackgroundWorkRepositoryImpl actual constructor(context: Any?): BackgroundWorkRepository {
     private val logger = Logger.withTag(this::class.simpleName ?: "BackgroundWorkRepositoryImpl")
 
     actual override suspend fun cancelJob(type: BackgroundJobType) {
@@ -93,10 +92,9 @@ internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, K
         }
     }
 
-    private fun callJobImmediately(identifier: String): Boolean {
-        val backgroundJob = get<BackgroundJob>(
-            qualifier = named(identifier)
-        )
+    private suspend fun callJobImmediately(identifier: String): Boolean {
+        val jobType = BackgroundWorkRepository.getJobTypeByIdentifier(identifier)
+        val backgroundJob = BackgroundWorkRepository.getBackgroundJob(jobType)
         return try {
             runBlocking {
                 runBackgroundJob(backgroundJob)

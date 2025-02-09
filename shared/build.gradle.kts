@@ -24,7 +24,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.maven.publish)
     id("signing")
-    alias(libs.plugins.kmp.workmanager)
 }
 
 group = "com.kartikprakash2.multiplatform.tools"
@@ -51,8 +50,6 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
-            implementation(dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.core)
             implementation(libs.coroutines.core)
             implementation(libs.kermit)
             implementation(libs.kotlinx.datetime)
@@ -126,11 +123,4 @@ signing {
         )
         sign(publishing.publications)
     }
-}
-
-kmpworkmanager {
-    jobIdentifiers = setOf<String>("ID1")
-    iosAppInfoPlistPath = File(rootDir, "samples/workmanagersample/iosApp/iosApp/Info.plist").path
-    packageName = "com.kartikprakash2.multiplatform.tools"
-    sourceSetDirectory = project.file("src/commonMain/kotlin")
 }

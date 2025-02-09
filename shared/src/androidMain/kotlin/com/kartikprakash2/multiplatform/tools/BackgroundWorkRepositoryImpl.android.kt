@@ -28,21 +28,17 @@ import co.touchlab.kermit.Logger
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobConfiguration
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
 import com.kartikprakash2.multiplatform.tools.models.SupportedPlatform
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
-import kotlin.getValue
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-internal actual class BackgroundWorkRepositoryImpl : BackgroundWorkRepository, KoinComponent {
+internal actual class BackgroundWorkRepositoryImpl actual constructor(private val context: Any?) : BackgroundWorkRepository {
     private lateinit var workManager: WorkManager
-    private val context: Context by inject()
 
     private val logger = Logger.withTag(this::class.java.simpleName)
 
     private fun ensureWorkManagerInitialized() {
         if (!this::workManager.isInitialized) {
-            workManager = WorkManager.getInstance(context)
+            workManager = WorkManager.getInstance(context as Context)
         }
     }
 

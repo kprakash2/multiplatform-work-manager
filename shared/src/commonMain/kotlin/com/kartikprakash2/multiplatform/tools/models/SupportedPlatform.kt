@@ -16,6 +16,11 @@
 
 package com.kartikprakash2.multiplatform.tools.models
 
+/**
+ * Represents supported platform types.
+ *
+ * @see BackgroundJobConfiguration
+ */
 enum class SupportedPlatform {
     ANDROID_ONLY,
     IOS_ONLY,

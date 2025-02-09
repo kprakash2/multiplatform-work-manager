@@ -16,6 +16,11 @@
 
 package com.kartikprakash2.multiplatform.tools.models
 
+/**
+ * Helper interface to declare different background job type.
+ *
+ * @property identifier Unique identifier of the job type.
+ */
 interface BackgroundJobType {
     val identifier: String
 }

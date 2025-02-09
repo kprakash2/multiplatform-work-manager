@@ -16,6 +16,15 @@
 
 package com.kartikprakash2.multiplatform.tools.models
 
+/**
+ * Represents configuration of a background job.
+ *
+ * @property intervalInMillis Represents interval between each periodic execution in milliseconds.
+ * @property periodic Represents if the task is periodic.
+ * @property supportedPlatform Represents which platform the task should execute on.
+ *
+ * @see [SupportedPlatform]
+ */
 data class BackgroundJobConfiguration(
     val intervalInMillis: Long,
     val periodic: Boolean,

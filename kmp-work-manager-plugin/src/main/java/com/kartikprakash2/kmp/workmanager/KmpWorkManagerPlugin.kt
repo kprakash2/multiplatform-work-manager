@@ -22,14 +22,25 @@ import org.gradle.api.Project
 @Suppress("UnnecessaryAbstractClass")
 abstract class KmpWorkManagerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        val extension = project.extensions.create("kmpworkmanager", KmpWorkManagerExtension::class.java, project)
+        val extension = project.extensions.create(EXTENSION_NAME, KmpWorkManagerExtension::class.java, project)
 
-        project.tasks.register("prepareKmpWorkManagerConfig", KmpWorkManagerConfigTask::class.java) {
+        project.tasks.register(CONFIG_TASK_NAME, KmpWorkManagerConfigTask::class.java) {
             it.jobIdentifiers.set(extension.jobIdentifiers)
             it.iosAppInfoPlistPath.set(extension.iosAppInfoPlistPath)
             it.sourceSetDirectory.set(extension.sourceSetDirectory)
             it.packageName.set(extension.packageName)
             it.className.set(extension.className)
         }
+
+        project.tasks.configureEach {
+            if (it.name.contains("compile")) {
+                it.dependsOn(CONFIG_TASK_NAME)
+            }
+        }
+    }
+
+    private companion object {
+        const val CONFIG_TASK_NAME = "prepareKmpWorkManagerConfig"
+        const val EXTENSION_NAME = "kmpworkmanager"
     }
 }

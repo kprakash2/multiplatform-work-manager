@@ -18,7 +18,7 @@ package com.kartikprakash2.multiplatform.tools
 
 import com.kartikprakash2.multiplatform.tools.models.BackgroundJobType
 
-internal expect class BackgroundWorkRepositoryImpl() : BackgroundWorkRepository {
+internal expect class BackgroundWorkRepositoryImpl(context: Any?) : BackgroundWorkRepository {
     override suspend fun cancelJob(type: BackgroundJobType)
     override suspend fun scheduleJob(type: BackgroundJobType)
 }
