@@ -3,8 +3,10 @@
 [![Kotlin Alpha](https://kotl.in/badges/alpha.svg)](https://kotlinlang.org/docs/components-stability.html)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 
-A Kotlin Multiplatform library that simplifies scheduling and executing periodic background jobs across different platforms (iOS, and Android). This library provides an easy-to-use API for setting up jobs that run at specified intervals, ensuring that your application can perform tasks in the background efficiently.
+![Android](https://img.shields.io/badge/android-green)
+![iOS](https://img.shields.io/badge/iOS-grey)
 
+A Kotlin Multiplatform library that simplifies scheduling and executing periodic background jobs across different platforms (iOS, and Android). This library provides an easy-to-use API for setting up jobs that run at specified intervals, ensuring that your application can perform tasks in the background efficiently.
 
 > NOTE: None of the artifacts are published yet, It's currently in progress to setup publishing properly. Expected publishing timeline is February 15th 2025
 
@@ -23,7 +25,7 @@ For android this library uses Android Work Manager to schedule jobs, which has a
 
 To achieve a common solution this uses a gradle plugin, that let you define your background job identifiers in your build setup which stays common between the platforms and provides a solution where you don't have to manually setup the identifiers in your iOS setup and copy that on Android for reference in your common/shared code.
 
-### Setup Gradle plugin
+### 1.Setup Gradle plugin
 
 Add the following gradle plugin in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS
 
@@ -33,7 +35,7 @@ plugins {
 }
 ```
 
-### Setup background job identifiers
+### 2. Setup background job identifiers
 
 Add the following block in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS
 
@@ -56,7 +58,7 @@ kmpworkmanager {
 
 The above extension will configure all `compile` type tasks in your module to run `prepareKmpWorkManagerConfig` which will create a config file in your source set which you can use to register your jobs at runtime.
 
-### Setup the dependencies
+### 3. Setup the dependencies
 
 To include the library in your Kotlin Multiplatform project, add the following dependencies in your `shared` module's `build.gradle.kts` file:
 
@@ -76,7 +78,7 @@ kotlin {
 
 Once you have compiled your project with above setup, in your module's sourceset there would be enum class (`BackgroundJobIdentifiers` or `className` if you provided the parameter in `kmpWorkManager` configuration) available with all your job identifiers.
 
-### Declare a provider for your background Jobs
+### 1. Declare a provider for your background Jobs
 
 This provider should return a `BackgroundJob` type for all your background job identifiers.
 
@@ -91,7 +93,7 @@ class MyBackgroundJobProvider(): BackgroundJobProvider<BackgroundJobIdentifiers>
 }
 ```
 
-### Initialize Background Work Repository
+### 2. Initialize Background Work Repository
 
 You can declare the following function or also tie it to your dependency injection framework if you're using any and then call this from each platform specific code.
 
@@ -114,7 +116,7 @@ initializeBackgroundWorkRepository(context)
 initializeBackgroundWorkRepository(null)
 ```
 
-### Register Jobs Configuration
+### 3. Register Jobs Configuration
 
 You can configure each of your background job type with multiple parameters using `BackgroundJobConfiguration`
 
@@ -162,6 +164,15 @@ BackgroundJobConfiguration(
 1. `intervalInMillis`: Represents interval between each periodic task run in milliseconds. Both Android and iOS only support 15 minutes of minimum interval.
 2. `periodic`: If task is recurring, this should be set to `true`. If the task needs to be run just once, this should be set to `false`.
 3. `supportedPlatform`: Represents the platform on which the task should run. It can be `ANRDOID_ONLY`, `IOS_ONLY`, `ALL`. If you want your task to run on both Android and IOS, use `ALL`.
+
+## TODO
+
+- [ ] Setup Github Actions
+- [ ] Add publishing and publish 1st version
+- [ ] Add test for `shared` module
+- [ ] Add test for `kmp-work-managerplugin`
+- [ ] Add support for high frequency periodic jobs (recurring at frequency of less than 15 mins.)
+- [ ] Add support for backoff strategies
 
 ## License
 
