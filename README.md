@@ -2,6 +2,9 @@
 
 A Kotlin Multiplatform library that simplifies scheduling and executing periodic background jobs across different platforms (iOS, and Android). This library provides an easy-to-use API for setting up jobs that run at specified intervals, ensuring that your application can perform tasks in the background efficiently.
 
+
+> NOTE: None of the artifacts are published yet, It's currently in progress to setup publishing properly. Expected publishing timeline is February 15th 2025
+
 ## Features
 
 - **Cross-Platform Support**: Works on Android & iOS
@@ -159,17 +162,17 @@ BackgroundJobConfiguration(
 
 ## License
 
-        Copyright 2025 Kartik Prakash
+    Copyright 2025 Kartik Prakash
 
-        Licensed under the Apache License, Version 2.0 (the "License");
-        you may not use this file except in compliance with the License.
-        You may obtain a copy of the License at
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-           http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
-        Unless required by applicable law or agreed to in writing, software
-        distributed under the License is distributed on an "AS IS" BASIS,
-        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-        See the License for the specific language governing permissions and
-        limitations under the License.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 #
