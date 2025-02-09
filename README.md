@@ -1,5 +1,8 @@
 # Multiplatform Work Manager
 
+[![Kotlin Alpha](https://kotl.in/badges/alpha.svg)](https://kotlinlang.org/docs/components-stability.html)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+
 A Kotlin Multiplatform library that simplifies scheduling and executing periodic background jobs across different platforms (iOS, and Android). This library provides an easy-to-use API for setting up jobs that run at specified intervals, ensuring that your application can perform tasks in the background efficiently.
 
 
