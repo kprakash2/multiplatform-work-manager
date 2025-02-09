@@ -19,7 +19,7 @@ To achieve a common solution this uses a gradle plugin, that let you define your
 
 ### Setup Gradle plugin
 
-Add the following gradle plugin in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS.dependencies
+Add the following gradle plugin in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS
 
 ```
 plugins {
@@ -29,7 +29,7 @@ plugins {
 
 ### Setup background job identifiers
 
-Add the following block in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS.dependencies
+Add the following block in your `build.gradle.kts` of `shared`/common gradle module that is shared between Android & iOS
 
 ```
 kmpworkmanager {
