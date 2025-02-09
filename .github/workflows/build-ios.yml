@@ -35,5 +35,5 @@ jobs:
 
       - name: iOS build
         run: |
-          ./gradlew build
-          --no-daemon --stacktrace
+          touch publishing.properties
+          ./gradlew build --no-daemon --stacktrace
