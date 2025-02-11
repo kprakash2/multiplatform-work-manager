@@ -9,7 +9,7 @@
 
 A Kotlin Multiplatform library that simplifies scheduling and executing periodic background jobs across different platforms (iOS, and Android). This library provides an easy-to-use API for setting up jobs that run at specified intervals, ensuring that your application can perform tasks in the background efficiently.
 
-> NOTE: None of the artifacts are published yet, It's currently in progress to setup publishing properly. Expected publishing timeline is February 15th 2025
+> NOTE: This library is in pre-release phase. Stable release publishing is expected to be by February 20th 2025.
 
 ## Features
 
