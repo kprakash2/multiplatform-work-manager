@@ -2,6 +2,7 @@
 
 [![Kotlin Alpha](https://kotl.in/badges/alpha.svg)](https://kotlinlang.org/docs/components-stability.html)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.kprakash2/kmp-workmanager)](https://central.sonatype.com/artifact/io.github.kprakash2/kmp-workmanager)
 
 ![Android](https://img.shields.io/badge/android-green)
 ![iOS](https://img.shields.io/badge/iOS-grey)
