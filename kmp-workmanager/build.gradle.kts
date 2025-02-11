@@ -15,15 +15,28 @@
  */
 
 plugins {
-    alias(libs.plugins.androidLibrary).apply(false)
-    alias(libs.plugins.kotlinMultiplatform).apply(false)
-    alias(libs.plugins.dokka).apply(false)
-    alias(libs.plugins.gradle.publish).apply(false)
-    alias(libs.plugins.nebula.release)
-    alias(libs.plugins.ktlint)
+    id("kmp-base-convention-plugin")
+    id("maven-publish-convention")
+    alias(libs.plugins.dokka)
 }
 
-allprojects {
-    group = "io.github.kprakash2"
-    version = rootProject.version.toString()
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.coroutines.core)
+            implementation(libs.kermit)
+            implementation(libs.kotlinx.datetime)
+        }
+        androidMain.dependencies {
+            implementation(libs.androidx.work)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(group.toString(), "kmp-workmanager", version.toString())
 }

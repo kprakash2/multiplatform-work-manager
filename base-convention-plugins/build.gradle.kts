@@ -14,24 +14,16 @@
  *  limitations under the License.
  */
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-pluginManagement {
-    repositories {
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
+plugins {
+    `kotlin-dsl`
 }
 
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
+dependencies {
+    fun plugin(id: String, version: String) = "$id:$id.gradle.plugin:$version"
+
+    implementation(libs.kotlin.gradle)
+    implementation(libs.kotlin.compiler.embeddable)
+    implementation(libs.android.gradle)
+
+    implementation(plugin(libs.plugins.maven.publish.get().toString(), libs.versions.maven.publish.get()))
 }
-
-rootProject.name = "multiplatform-work-manager"
-includeBuild("base-convention-plugins")
-
-include(":kmp-workmanager")
-include(":kmp-workmanager-plugin")

@@ -14,24 +14,11 @@
  *  limitations under the License.
  */
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-pluginManagement {
-    repositories {
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
+package com.kprakash2.kmp.tools
+
+import com.kprakash2.kmp.tools.models.BackgroundJobType
+
+internal expect class BackgroundWorkRepositoryImpl(context: Any?) : BackgroundWorkRepository {
+    override suspend fun cancelJob(type: BackgroundJobType)
+    override suspend fun scheduleJob(type: BackgroundJobType)
 }
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "multiplatform-work-manager"
-includeBuild("base-convention-plugins")
-
-include(":kmp-workmanager")
-include(":kmp-workmanager-plugin")
