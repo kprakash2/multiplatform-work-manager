@@ -5,7 +5,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,24 +14,13 @@
  *  limitations under the License.
  */
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-pluginManagement {
-    repositories {
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
+package com.kprakash2.kmp.tools.models
+
+/**
+ * Helper interface to declare different background job type.
+ *
+ * @property identifier Unique identifier of the job type.
+ */
+interface BackgroundJobType {
+    val identifier: String
 }
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "multiplatform-work-manager"
-includeBuild("base-convention-plugins")
-
-include(":kmp-workmanager")
-include(":kmp-workmanager-plugin")

@@ -31,7 +31,7 @@ Add the following gradle plugin in your `build.gradle.kts` of `shared`/common gr
 
 ```
 plugins {
-    id ("com.kartikprakash2.kmp.workmanager") version "<version>"
+    id ("com.kprakash2.kmp.workmanager") version "<version>"
 }
 ```
 
@@ -67,7 +67,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.kartikprakash2.multiplatform.tools:multiplatform-work-manager:<version>")
+                implementation("com.kprakash2.kmp.tools:kmp-work-manager:<version>")
             }
         }
     }
@@ -170,7 +170,7 @@ BackgroundJobConfiguration(
 - [ ] Setup Github Actions
 - [ ] Add publishing and publish 1st version
 - [ ] Add test for `shared` module
-- [ ] Add test for `kmp-work-managerplugin`
+- [ ] Add test for `kmp-workmanager` plugin
 - [ ] Add support for high frequency periodic jobs (recurring at frequency of less than 15 mins.)
 - [ ] Add support for backoff strategies
 - [ ] Add support for Network constraints

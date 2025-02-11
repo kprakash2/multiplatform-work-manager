@@ -14,16 +14,19 @@
  *  limitations under the License.
  */
 
-plugins {
-    alias(libs.plugins.androidLibrary).apply(false)
-    alias(libs.plugins.kotlinMultiplatform).apply(false)
-    alias(libs.plugins.dokka).apply(false)
-    alias(libs.plugins.gradle.publish).apply(false)
-    alias(libs.plugins.nebula.release)
-    alias(libs.plugins.ktlint)
-}
+package com.kprakash2.kmp.tools.models
 
-allprojects {
-    group = "io.github.kprakash2"
-    version = rootProject.version.toString()
-}
+/**
+ * Represents configuration of a background job.
+ *
+ * @property intervalInMillis Represents interval between each periodic execution in milliseconds.
+ * @property periodic Represents if the task is periodic.
+ * @property supportedPlatform Represents which platform the task should execute on.
+ *
+ * @see [SupportedPlatform]
+ */
+data class BackgroundJobConfiguration(
+    val intervalInMillis: Long,
+    val periodic: Boolean,
+    val supportedPlatform: SupportedPlatform = SupportedPlatform.ALL,
+)

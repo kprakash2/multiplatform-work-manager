@@ -1,8 +1,10 @@
 [versions]
-agp = "8.10.0-alpha03"
+agp = "8.7.3"
 androidx-work = "2.10.0"
 coroutines = "1.9.0"
+conventionKotlin = "2.0.21" # Convention plugins sometimes need older Kotlin for compatibility with kotlin-dsl plugin
 dokka = "2.0.0"
+gradle-publish = "1.3.1"
 junit = "4.13.2"
 kotlin = "2.1.0"
 kermit = "2.0.5"
@@ -16,6 +18,10 @@ kmp-workmanager = "0.1"
 
 [libraries]
 
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "conventionKotlin" }
+kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "conventionKotlin" }
+android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -27,9 +33,8 @@ kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "poet" }
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+maven-publish = { id = "com.vanniktech.maven.publish" }
 nebula-release = { id = "nebula.release", version.ref = "nebula-release" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-
-kmp-workmanager = { id = "com.kartikprakash2.kmp.workmanager", version.ref = "kmp-workmanager" }
+gradle-publish = { id = "com.gradle.plugin-publish", version.ref = "gradle-publish" }
