@@ -31,7 +31,7 @@ Add the following gradle plugin in your `build.gradle.kts` of `shared`/common gr
 
 ```
 plugins {
-    id ("com.kprakash2.kmp.workmanager") version "<version>"
+    id ("io.github.kprakash2.kmp-workmanager-gradle") version "<version>"
 }
 ```
 
@@ -67,7 +67,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.kprakash2.kmp.tools:kmp-work-manager:<version>")
+                implementation("io.github.kprakash2:kmp-workmanager:<version>")
             }
         }
     }
