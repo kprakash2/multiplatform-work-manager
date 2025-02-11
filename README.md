@@ -167,8 +167,8 @@ BackgroundJobConfiguration(
 
 ## TODO
 
-- [ ] Setup Github Actions
-- [ ] Add publishing and publish 1st version
+- [x] Setup Github Actions
+- [x] Add publishing and publish 1st version
 - [ ] Add test for `shared` module
 - [ ] Add test for `kmp-workmanager` plugin
 - [ ] Add support for high frequency periodic jobs (recurring at frequency of less than 15 mins.)
