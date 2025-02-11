@@ -22,5 +22,5 @@ jobs:
           java-version: 17
           distribution: corretto
 
-      - name: Mac deploy
-        run: ./gradlew publish --no-daemon --stacktrace
+      - name: Deploy
+        run: ./gradlew publish -Prelease.version=$GITHUB_REF_NAME --no-daemon --stacktrace
