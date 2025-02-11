@@ -35,4 +35,4 @@ jobs:
 
       - name: iOS build
         run: |
-          ./gradlew publishToMavenLocal --no-daemon --stacktrace
+          ./gradlew publishKotlinMultiplatformPublicationToMavenLocal --no-daemon --stacktrace
