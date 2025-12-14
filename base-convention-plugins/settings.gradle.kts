@@ -1,3 +1,5 @@
+rootProject.name = "base-convention-plugins"
+
 pluginManagement {
     repositories {
         google()

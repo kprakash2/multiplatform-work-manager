@@ -1,6 +1,6 @@
 [versions]
-agp = "8.7.3"
-androidx-work = "2.10.0"
+agp = "8.13.2"
+androidx-work = "2.11.0"
 coroutines = "1.9.0"
 conventionKotlin = "2.0.21" # Convention plugins sometimes need older Kotlin for compatibility with kotlin-dsl plugin
 dokka = "2.0.0"
