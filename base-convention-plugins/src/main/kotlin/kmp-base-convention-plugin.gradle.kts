@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.konan.target.HostManager
 
 /*
  * Copyright 2025 Kartik Prakash
@@ -37,9 +38,12 @@ kotlin {
             }
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+
+    if (HostManager.hostIsMac) {
+        iosX64()
+        iosArm64()
+        iosSimulatorArm64()
+    }
 }
 
 android {

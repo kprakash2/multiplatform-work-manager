@@ -23,7 +23,10 @@ plugins {
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    signAllPublications()
+
+    if (findProperty("signing.key") != null) {
+        signAllPublications()
+    }
 
     pom {
         name = "Multiplatform Work Manager"
@@ -52,6 +55,8 @@ mavenPublishing {
 
 signing {
     val signingKey = findProperty("signing.key")?.toString()?.replace("\\n", "\n")
+
+    isRequired = signingKey != null
 
     if (signingKey != null) {
         val signingKeyPassword = findProperty("signing.password")?.toString()

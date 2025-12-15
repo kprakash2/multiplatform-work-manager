@@ -29,6 +29,7 @@ import org.gradle.process.ExecOperations
 import java.io.File
 import javax.inject.Inject
 
+
 abstract class KmpWorkManagerConfigTask : DefaultTask() {
     init {
         description = "Task to create KMP Work Manager Configuration"
@@ -88,31 +89,34 @@ abstract class KmpWorkManagerConfigTask : DefaultTask() {
             jobIdentifiers = jobIdentifiers.get()
         )
 
-        logger.lifecycle("KMPWorkManager updating Plist file with background job identifiers")
+        if (isMacOS()) {
+            logger.lifecycle("KMPWorkManager updating Plist file with background job identifiers")
 
+            val deletingExistingIdentifiersExitCode = execOps.exec {
+                it.commandLine(
+                    PLIST_BUDDY_PATH,
+                    "-c",
+                    "Delete :$PLIST_BG_TASK_IDS_KEY",
+                    iosAppInfoPlistPath.get()
+                )
+            }.exitValue
+            if (deletingExistingIdentifiersExitCode != 0) {
+                throw IllegalStateException("Unable to remove existing identifiers from ${iosAppInfoPlistPath.get()}")
+            }
 
-        val deletingExistingIdentifiersExitCode = execOps.exec {
-            it.commandLine(
-                PLIST_BUDDY_PATH,
-                "-c",
-                "Delete :$PLIST_BG_TASK_IDS_KEY",
-                iosAppInfoPlistPath.get()
-            )
-        }.exitValue
-        if (deletingExistingIdentifiersExitCode != 0) {
-            throw IllegalStateException("Unable to remove existing identifiers from ${iosAppInfoPlistPath.get()}")
-        }
-
-        val settingIdentifiersExitCode = execOps.exec {
-            it.commandLine(
-                PLIST_BUDDY_PATH,
-                "-c",
-                "Add :$PLIST_BG_TASK_IDS_KEY: string '${jobIdentifiers.get().first()}'",
-                iosAppInfoPlistPath.get()
-            )
-        }.exitValue
-        if (settingIdentifiersExitCode != 0) {
-            throw IllegalStateException("Unable to set identifiers in ${iosAppInfoPlistPath.get()}")
+            val settingIdentifiersExitCode = execOps.exec {
+                it.commandLine(
+                    PLIST_BUDDY_PATH,
+                    "-c",
+                    "Add :$PLIST_BG_TASK_IDS_KEY: string '${jobIdentifiers.get().first()}'",
+                    iosAppInfoPlistPath.get()
+                )
+            }.exitValue
+            if (settingIdentifiersExitCode != 0) {
+                throw IllegalStateException("Unable to set identifiers in ${iosAppInfoPlistPath.get()}")
+            }
+        } else {
+            logger.lifecycle("skip updating Plist file.")
         }
     }
 
@@ -139,6 +143,11 @@ abstract class KmpWorkManagerConfigTask : DefaultTask() {
                 throw IllegalStateException("Job Identifier cannot have spaces.")
             }
         }
+    }
+
+    private fun isMacOS(): Boolean {
+        val osName = System.getProperty("os.name").lowercase()
+        return osName.contains("mac") || osName.contains("darwin")
     }
 
     private companion object {
