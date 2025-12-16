@@ -24,9 +24,7 @@ plugins {
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    if (findProperty("signing.key") != null) {
-        signAllPublications()
-    }
+    signAllPublications()
 
     pom {
         name = "Multiplatform Work Manager"
